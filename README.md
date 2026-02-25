@@ -5,6 +5,7 @@ Este projeto consiste em duas APIs REST desenvolvidas em Java com Spring Boot qu
 - **API Gateway (porta 8080)**: Responsável por autenticação (`/auth/login`) e roteamento de requisições para a API de Pedidos.
 - **API de Pedidos (porta 8081)**: Gerencia pedidos e itens de pedido, com endpoints protegidos por JWT.
 
+
 ## Tecnologias Utilizadas
 
 - Java 17
@@ -17,12 +18,14 @@ Este projeto consiste em duas APIs REST desenvolvidas em Java com Spring Boot qu
 - Docker / Docker Compose
 - JUnit 5, Mockito, JaCoCo
 
+
 ## Pré-requisitos
 
 - Java 17 ou superior
 - Maven 3.8+
 - Docker (opcional, para execução com containers)
 - Git
+
 
 ## Como Executar
 
@@ -33,7 +36,9 @@ git clone <seu-repositorio>
 cd cotefacil-assessment
 ```
 
+
 ## 2. Executar localmente (sem Docker)
+
 
 ### 2.1. Inicie a API de Pedidos
 
@@ -42,9 +47,11 @@ cd api-orders
 mvn spring-boot:run
 ```
 
-A API estará disponível em http://localhost:8081.
+A API estará disponível em: 
+http://localhost:8081.
 
-## 2.2. Inicie a API Gateway
+
+### 2.2. Inicie a API Gateway
 
 Em outro terminal:
 
@@ -53,7 +60,9 @@ cd api-gateway
 mvn spring-boot:run
 ```
 
-A API Gateway estará disponível em http://localhost:8080.
+A API Gateway estará disponível em:
+http://localhost:8080.
+
 
 
 ## 3. Executar com Docker Compose
@@ -64,28 +73,57 @@ Na raiz do projeto, execute:
 docker-compose up --build
 ```
 
-As APIs serão iniciadas nos mesmos endereços: Gateway em http://
-localhost:8080 e Pedidos em http://localhost:8081.
+As APIs serão iniciadas nos mesmos endereços: 
+
+Gateway em:
+http://localhost:8080 
+
+e Pedidos em:
+http://localhost:8081.
+
+
 
 # Credenciais de Teste
 
+```text
 Usuário: usuario
 Senha: senha123
+```
+
 
 # Documentação Interativa (Swagger)
 
-API Gateway: http://localhost:8080/swagger-ui.html
+API Gateway: 
+http://localhost:8080/swagger-ui.html
 
-API de Pedidos: http://localhost:8081/swagger-ui.html
+API de Pedidos: 
+http://localhost:8081/swagger-ui.html
 
 H2 Console (Banco de Dados em Memória)
-API Gateway: http://localhost:8080/h2-console
-JDBC URL: jdbc:h2:mem:gatewaydb | User: sa | Password: (vazio)
+API Gateway: 
+http://localhost:8080/h2-console
 
-API de Pedidos: http://localhost:8081/h2-console
-JDBC URL: jdbc:h2:mem:ordersdb | User: sa | Password: (vazio)
+
+JDBC URL: 
+```text
+jdbc:h2:mem:gatewaydb
+User: sa
+Password: (vazio)
+```
+
+API de Pedidos: 
+http://localhost:8081/h2-console
+
+JDBC URL: 
+```text
+jdbc:h2:mem:ordersdb
+User: sa
+Password: (vazio)
+```
+
 
 # Endpoints e Exemplos de Requisições
+
 
 ## 1. Autenticação (API Gateway)
 
@@ -106,6 +144,8 @@ Resposta:
   "token": "eyJhbGciOiJIUzI1NiJ9..."
 }
 ```
+
+
 
 ## 2. Operações de Pedidos (via Gateway)
 
@@ -175,6 +215,7 @@ curl -X PUT http://localhost:8080/api/orders/1 \
   }'
 ```
 
+
 ### 2.5. Deletar um pedido (apenas se status = PENDING)
 
 DELETE /api/orders/{id}
@@ -183,6 +224,7 @@ DELETE /api/orders/{id}
 curl -X DELETE http://localhost:8080/api/orders/1 \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
+
 
 
 ## 3. Operações de Itens de Pedido
@@ -214,9 +256,12 @@ curl -X POST http://localhost:8080/api/orders/1/items \
 ```
 
 
+
 # Testando a Comunicação entre APIs
 
 A API Gateway atua como proxy: todas as requisições para /api/orders/** são encaminhadas para a API de Pedidos, incluindo o token JWT validado. A API de Pedidos também valida o token antes de processar a requisição.
+
+
 
 # Executando Testes
 
@@ -245,6 +290,8 @@ cotefacil-assessment/
 └── README.md
 ```
 
+
+
 # Decisões Arquiteturais
 
 Separação em duas APIs: Isola responsabilidades (autenticação/roteamento vs. negócio), permitindo escalabilidade independente.
@@ -261,10 +308,16 @@ Documentação com Swagger: Interface interativa para explorar e testar os endpo
 
 Docker e Docker Compose: Permitem execução consistente em qualquer ambiente.
 
+
+
 # CI/CD
+
 O projeto inclui um workflow do GitHub Actions (.github/workflows/ci.yml) que executa build e testes em cada push para a branch main.
 
+
+
 # Observações
+
 O token JWT expira em 1 hora. Para obter um novo, faça login novamente.
 
 A chave secreta JWT está configurada nos arquivos application.yml de ambas as APIs. Em produção, externalize essa chave via variáveis de ambiente.
