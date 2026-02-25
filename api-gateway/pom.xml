@@ -98,11 +98,13 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.10</version>
 				<executions>
+					<!-- Prepara o agente JaCoCo para coletar dados de cobertura -->
 					<execution>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
+					<!-- Gera o relatório após os testes -->
 					<execution>
 						<id>report</id>
 						<phase>test</phase>
@@ -110,13 +112,7 @@
 							<goal>report</goal>
 						</goals>
 					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.10</version>
-				<executions>
+					<!-- Verifica se a cobertura atende ao mínimo (70%) -->
 					<execution>
 						<id>check</id>
 						<goals>
