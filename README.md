@@ -6,6 +6,7 @@ Este projeto consiste em duas APIs REST desenvolvidas em Java com Spring Boot qu
 - **API de Pedidos (porta 8081)**: Gerencia pedidos e itens de pedido, com endpoints protegidos por JWT.
 
 
+
 ## Tecnologias Utilizadas
 
 - Java 17
@@ -19,6 +20,7 @@ Este projeto consiste em duas APIs REST desenvolvidas em Java com Spring Boot qu
 - JUnit 5, Mockito, JaCoCo
 
 
+
 ## Pré-requisitos
 
 - Java 17 ou superior
@@ -27,7 +29,9 @@ Este projeto consiste em duas APIs REST desenvolvidas em Java com Spring Boot qu
 - Git
 
 
+
 ## Como Executar
+
 
 ### 1. Clone o repositório
 
@@ -35,6 +39,7 @@ Este projeto consiste em duas APIs REST desenvolvidas em Java com Spring Boot qu
 git clone <seu-repositorio>
 cd cotefacil-assessment
 ```
+
 
 
 ## 2. Executar localmente (sem Docker)
@@ -91,6 +96,7 @@ Senha: senha123
 ```
 
 
+
 # Documentação Interativa (Swagger)
 
 API Gateway: 
@@ -99,7 +105,7 @@ http://localhost:8080/swagger-ui.html
 API de Pedidos: 
 http://localhost:8081/swagger-ui.html
 
-H2 Console (Banco de Dados em Memória)
+H2 Console (Banco de Dados em Memória) 
 API Gateway: 
 http://localhost:8080/h2-console
 
@@ -111,6 +117,7 @@ User: sa
 Password: (vazio)
 ```
 
+H2 Console (Banco de Dados em Memória) 
 API de Pedidos: 
 http://localhost:8081/h2-console
 
@@ -120,6 +127,7 @@ jdbc:h2:mem:ordersdb
 User: sa
 Password: (vazio)
 ```
+
 
 
 # Endpoints e Exemplos de Requisições
