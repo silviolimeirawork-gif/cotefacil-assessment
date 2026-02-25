@@ -45,20 +45,20 @@ public class OrderService {
         order.setCustomerName(request.getCustomerName());
         order.setCustomerEmail(request.getCustomerEmail());
         // salvar primeiro para gerar ID
-        Order savedOrder = orderRepository.save(order);
-
+        Order savedOrder = orderRepository.save(order); // first save
         if (request.getItems() != null) {
             request.getItems().forEach(itemRequest -> {
                 OrderItem item = new OrderItem();
                 item.setProductName(itemRequest.getProductName());
                 item.setQuantity(itemRequest.getQuantity());
                 item.setUnitPrice(itemRequest.getUnitPrice());
-                item.calculateSubtotal(); // chama @PreUpdate manualmente? Melhor usar set
+                item.calculateSubtotal();
                 savedOrder.addItem(item);
             });
         }
         savedOrder.recalculateTotal();
-        return toResponse(orderRepository.save(savedOrder));
+        return toResponse(orderRepository.save(savedOrder)); // second save
+        
     }
 
     @Transactional
