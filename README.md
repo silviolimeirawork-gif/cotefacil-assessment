@@ -153,6 +153,7 @@ Resposta:
 }
 ```
 
+Salve o token para usar nas próximas requisições (substitua <TOKEN> pelo valor obtido).
 
 
 ## 2. Operações de Pedidos (via Gateway)
@@ -189,6 +190,16 @@ GET /api/orders?page=0&size=10
 ```bash
 curl -X GET "http://localhost:8080/api/orders?page=0&size=10" \
   -H "Authorization: Bearer SEU_TOKEN"
+```
+
+```text
+Parâmetros:
+
+page: número da página (começa em 0)
+
+size: quantidade por página
+
+sort: campo e direção (ex: orderDate,desc)
 ```
 
 
@@ -262,6 +273,14 @@ curl -X POST http://localhost:8080/api/orders/1/items \
     "unitPrice": 150.00
   }'
 ```
+
+# Observações
+
+Substitua 1 nos IDs pelos valores reais retornados na criação.
+O token JWT expira em 1 hora; se necessário, refaça o login.
+Todos os endpoints exigem o header Authorization: Bearer <TOKEN>.
+
+A API 2 (pedidos) roda internamente, mas todas as chamadas devem ser feitas para o gateway na porta 8080.
 
 
 
