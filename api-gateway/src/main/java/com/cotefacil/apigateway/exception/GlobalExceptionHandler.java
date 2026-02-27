@@ -1,6 +1,5 @@
 package com.cotefacil.apigateway.exception;
 
-import com.cotefacil.apigateway.controller.AuthController;
 import com.cotefacil.apigateway.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
