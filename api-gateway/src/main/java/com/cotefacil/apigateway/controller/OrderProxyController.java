@@ -6,11 +6,16 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Enumeration;
 
 @RestController
 @RequestMapping("/api/orders")
 public class OrderProxyController {
+
+    private static final Logger log = LoggerFactory.getLogger(OrderProxyController.class);
 
     private final RestTemplate restTemplate;
 
@@ -45,6 +50,8 @@ public class OrderProxyController {
         String path = request.getRequestURI().replace("/api/orders", "");
         String query = request.getQueryString();
         String url = ordersApiUrl + "/api/orders" + path + (query != null ? "?" + query : "");
+
+        log.info("Proxy: {} {} -> {}", method, request.getRequestURI(), url);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);

@@ -15,8 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class OrderItemService {
+
+    private static final Logger log = LoggerFactory.getLogger(OrderItemService.class);
 
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
@@ -34,6 +39,7 @@ public class OrderItemService {
 
     @Transactional
     public OrderItemResponse addItemToOrder(Long orderId, OrderItemRequest request) {
+        log.debug("Adicionando item ao pedido {}", orderId);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + orderId));
 
@@ -49,6 +55,7 @@ public class OrderItemService {
         order.addItem(item);
         order.recalculateTotal();
         orderRepository.save(order);
+        log.info("Item adicionado ao pedido {}. Produto: {}, quantidade: {}", orderId, request.getProductName(), request.getQuantity());        
         return toResponse(item);
     }
 

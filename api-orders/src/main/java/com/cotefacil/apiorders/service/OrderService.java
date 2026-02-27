@@ -15,11 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.stream.Collectors;
+
+import com.cotefacil.apiorders.controller.OrderItemController;
 import com.cotefacil.apiorders.dto.OrderItemResponse;
-import com.cotefacil.apiorders.exception.BusinessException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Service
 public class OrderService {
+
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 
     private final OrderRepository orderRepository;
     private final OrderItemService orderItemService;
@@ -41,6 +48,7 @@ public class OrderService {
 
     @Transactional
     public OrderResponse create(OrderRequest request) {
+        log.debug("Criando pedido para cliente: {}", request.getCustomerName());
         Order order = new Order();
         order.setCustomerName(request.getCustomerName());
         order.setCustomerEmail(request.getCustomerEmail());
@@ -56,13 +64,14 @@ public class OrderService {
                 savedOrder.addItem(item);
             });
         }
-        savedOrder.recalculateTotal();
-        return toResponse(orderRepository.save(savedOrder)); // second save
-        
+        Order saved = orderRepository.save(order);
+        log.info("Pedido criado com ID: {}", saved.getId());
+        return toResponse(saved);
     }
 
     @Transactional
     public OrderResponse update(Long id, OrderRequest request) {
+        log.debug("Atualizando pedido ID: {}", id);
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
 
@@ -87,17 +96,21 @@ public class OrderService {
             });
         }
         order.recalculateTotal();
-        return toResponse(orderRepository.save(order));
+        Order updated = orderRepository.save(order);
+        log.info("Pedido ID: {} atualizado", id);
+        return toResponse(updated);    
     }
 
     @Transactional
     public void delete(Long id) {
+        log.debug("Deletando pedido ID: {}", id);
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
         if (order.getStatus() != OrderStatus.PENDING) {
             throw new BusinessException("Only pending orders can be deleted");
         }
         orderRepository.delete(order);
+        log.info("Pedido ID: {} deletado", id);        
     }
 
     private OrderResponse toResponse(Order order) {

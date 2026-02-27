@@ -265,6 +265,18 @@ curl -X POST http://localhost:8080/api/orders/1/items \
 
 
 
+## Logs e Auditoria
+
+Todas as operações importantes são registradas em log com nível INFO, incluindo:
+- Tentativas de login (sucesso/falha)
+- Criação, atualização e exclusão de pedidos
+- Adição de itens a pedidos
+- Requisições recebidas (via filtro)
+
+Os logs contêm timestamp, usuário autenticado (quando disponível), ação realizada e detalhes da requisição/resposta (truncados para evitar poluição). Em produção, recomenda-se enviar os logs para um sistema centralizado (ELK, Splunk, etc.) para análise de auditoria.
+
+
+
 # Testando a Comunicação entre APIs
 
 A API Gateway atua como proxy: todas as requisições para /api/orders/** são encaminhadas para a API de Pedidos, incluindo o token JWT validado. A API de Pedidos também valida o token antes de processar a requisição.
